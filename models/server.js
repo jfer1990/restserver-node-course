@@ -1,11 +1,15 @@
 import express from 'express'; 
 import cors from 'cors'; 
 import router from '../routes/user.js';
+import dbConnection from '../db/config.js';
 
 class Server{
     constructor(){
         this.app = express(); 
         this.port = process.env.PORT;
+
+        //connect db
+        this.connectDB(); 
 
         //Middlewares
         this.middlewares(); 
@@ -24,6 +28,10 @@ class Server{
 
         //Lectura y parseo
         this.app.use( express.json() ) 
+    }
+
+    async connectDB(){
+        await dbConnection(); 
     }
 
     listen(){
